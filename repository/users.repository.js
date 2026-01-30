@@ -1,22 +1,23 @@
-const db = require('../config/db');
+import db from '../config/db.js';
 
 const getUserWithEmail = async (email) => {
     const [rows] = await db.query(
-        'SELECT * FROM users WHERE email = ?',
+        'SELECT * FROM users WHERE email = ? LIMIT 1',
         [email]
     );
-    return rows;
+
+    return rows[0] || null;
 };
 
-const registerUser = async (history) => {
+const registerUser = async (user) => {
     const [result] = await db.query(
-        'INSERT INTO history (user_id, food_name, calories_100g, protein_100g, carbs_100g, sugars_100g, calories, protein, carbs, sugars, nova) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [history.user_id, history.food_name, history.calories100g, history.protein100g, history.carbs100g,
-            history.sugars100g, history.calories, history.protein, history.carbs, history.sugars, history.nova]
+        'INSERT INTO users (name, surname, email, password, height, weight, bmi_value, what_want) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [user.name, user.surname, user.email, user.password, user.height, user.weight, user.bmi_value, user.what_want]
     );
     return result.insertId;
 };
 
-module.exports = {
+export default {
     getUserWithEmail,
-};
+    registerUser
+}

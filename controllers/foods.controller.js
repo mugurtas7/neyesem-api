@@ -1,4 +1,14 @@
-import service from "../services/ai.service.js";
+import service from '../services/foods.service.js';
+
+const suggestFood = async (req, res, next) => {
+    try {
+        const foodData = await service.getFoodSuggestion(req.user.id, req.user.what_want);
+
+        return res.status(200).send({ message: "Yemek önerisi başarıyla getirildi!", foodData });
+    } catch (err) {
+        next(err);
+    }
+}
 
 const scanImage = async (req, res, next) => {
     try {
@@ -10,15 +20,15 @@ const scanImage = async (req, res, next) => {
 
         const base64 = file.buffer.toString("base64");
 
-        const data = await service.getFoodDataFromImage(base64);
+        const data = await service.scanImage(base64);
 
         return res.status(200).send({ message: "Besin bilgileri başarıyla getirildi!", data: data });
     } catch (err) {
-        console.error(err);
-        return res.status(500).send({ message: "Bilinmeyen bir hata oluştu!" });
+        next(err);
     }
 }
 
 export default {
+    suggestFood,
     scanImage
 }

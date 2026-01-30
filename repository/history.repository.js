@@ -1,4 +1,4 @@
-const db = require('../config/db');
+import db from '../config/db.js';
 
 const getAllHistoryWithUserID = async (userId) => {
     const [rows] = await db.query(
@@ -25,8 +25,8 @@ const createHistory = async (history) => {
     return result.insertId;
 };
 
-module.exports = {
+export default {
     getAllHistoryWithUserID,
     get2WeekHistoryWithUserID,
-    createHistory,
+    createHistory
 };
