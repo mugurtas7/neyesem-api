@@ -41,7 +41,29 @@ const register = async (name, surname, email, password, height, weight, what_wan
     return userId;
 }
 
+const registerFast = async (name, surname, email, password) => {
+    const findEmail = await usersRepository.getUserWithEmail(email);
+
+    if (findEmail) throw new AppError("Bu email adresi zaten kullanılıyor!", 409);
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const userId = await usersRepository.registerUser({
+        name,
+        surname,
+        email,
+        password: hashedPassword,
+        height: 0,
+        weight: 0,
+        bmi_value: 0,
+        what_want: 0
+    });
+
+    return userId;
+}
+
 export default {
     login,
-    register
+    register,
+    registerFast
 };

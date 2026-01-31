@@ -13,6 +13,7 @@ async function suggestFood(history, what_want) {
 
             Kullanıcı şu an ${what_want} istiyor.
             Türklerin ofiste yiyebileceği, online sipariş edilebilir bir yemek öner. Sadece ismini ver.
+            Daha önce önerilen yemekleri TEKRAR ETME.
             `
         },
     ];

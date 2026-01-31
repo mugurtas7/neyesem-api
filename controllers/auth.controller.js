@@ -24,7 +24,20 @@ const registerUser = async (req, res, next) => {
     }
 }
 
+const registerFast = async (req, res, next) => {
+    try {
+        const { name, surname, email, password } = req.body;
+
+        const insertId = await authService.registerFast(name, surname, email, password);
+
+        return res.status(201).send({ message: "Başarıyla kayıt oldunuz!", insertId });
+    } catch (err) {
+        next(err);
+    }
+}
+
 export default {
     loginUser,
-    registerUser
+    registerUser,
+    registerFast
 }

@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
+import cors from "cors";
+
 
 import AuthRoutes from './routes/auth.routes.js';
 import FoodRoutes from './routes/foods.routes.js';
@@ -10,6 +12,12 @@ import errorHandler from './middlewares/error.middleware.js';
 
 const app = express();
 const port = 3000;
+
+app.use(cors({
+    origin: "*", // prod'da domain ver
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

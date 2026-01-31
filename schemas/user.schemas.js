@@ -14,3 +14,10 @@ export const registerSchema = Joi.object({
     weight: Joi.number().required(),
     what_want: Joi.number().integer().required()
 });
+
+export const registerFastSchema = Joi.object({
+    name: Joi.string().required(),
+    surname: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
+});
