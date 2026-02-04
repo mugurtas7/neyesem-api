@@ -4,9 +4,9 @@ const loginUser = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
-        const token = await authService.login(email, password);
+        const data = await authService.login(email, password);
 
-        return res.status(200).send({ message: "Başarıyla giriş yaptınız!", token });
+        return res.status(200).send({ message: "Başarıyla giriş yaptınız!", data });
     } catch (err) {
         next(err);
     }
@@ -36,8 +36,31 @@ const registerFast = async (req, res, next) => {
     }
 }
 
+const userMe = async (req, res, next) => {
+    try {
+        return res.status(201).send({ user: req.user });
+    } catch (err) {
+        next(err);
+    }
+}
+
+const updateInfo = async (req, res, next) => {
+    try {
+        const { height, weight, what_want } = req.body;
+
+        await authService.updateInfo(req.user.id, height, weight, what_want);
+
+        return res.status(201).send({ message: "Bilgileriniz başarıyla kaydedildi!", data: { height, weight, what_want } });
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+}
+
 export default {
     loginUser,
     registerUser,
-    registerFast
+    registerFast,
+    userMe,
+    updateInfo
 }

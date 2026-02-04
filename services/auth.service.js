@@ -17,7 +17,7 @@ const login = async (email, password) => {
         { expiresIn: '30d' }
     );
 
-    return token;
+    return { user: user, token };
 };
 
 const register = async (name, surname, email, password, height, weight, what_want) => {
@@ -62,8 +62,21 @@ const registerFast = async (name, surname, email, password) => {
     return userId;
 }
 
+const updateInfo = async (userId, height, weight, what_want) => {
+    const update = await usersRepository.updateInfo({
+        id: userId,
+        height,
+        weight,
+        bmi_value: calculateBMI(height, weight),
+        what_want
+    });
+
+    return update;
+}
+
 export default {
     login,
     register,
-    registerFast
+    registerFast,
+    updateInfo
 };

@@ -23,6 +23,7 @@ const getFoodSuggestion = async (userId, whatWant) => {
 
         return {
             id: foodId,
+            // https://api.unsplash.com/search/photos?query=Izgara%20Tavuklu%20Salata&client_id=&page=1
             food_name: foodName,
             nutriements: aiFoodData
         };

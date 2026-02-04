@@ -9,6 +9,15 @@ const getUserWithEmail = async (email) => {
     return rows[0] || null;
 };
 
+const getUserWithId = async (userId) => {
+    const [rows] = await db.query(
+        'SELECT * FROM users WHERE id = ? LIMIT 1',
+        [userId]
+    );
+
+    return rows[0] || null;
+};
+
 const registerUser = async (user) => {
     const [result] = await db.query(
         'INSERT INTO users (name, surname, email, password, height, weight, bmi_value, what_want) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
@@ -17,7 +26,17 @@ const registerUser = async (user) => {
     return result.insertId;
 };
 
+const updateInfo = async (user) => {
+    const [result] = await db.query(
+        'UPDATE users SET height = ?, weight = ?, bmi_value = ?, what_want = ? WHERE id = ?',
+        [user.height, user.weight, user.bmi_value, user.what_want, user.id]
+    );
+    return result.affectedRows > 0;
+};
+
 export default {
     getUserWithEmail,
-    registerUser
+    getUserWithId,
+    registerUser,
+    updateInfo
 }

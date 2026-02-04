@@ -21,3 +21,9 @@ export const registerFastSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required()
 });
+
+export const infoSchema = Joi.object({
+    height: Joi.number().required(),
+    weight: Joi.number().required(),
+    what_want: Joi.number().integer().required()
+});

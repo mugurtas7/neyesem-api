@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
+import usersRepository from '../repository/users.repository.js';
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) return res.status(401).json({ message: 'Token bulunamadı!' });
 
@@ -8,7 +9,12 @@ const authMiddleware = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+
+        const user = await usersRepository.getUserWithId(decoded.id);
+        
+        if (!user) return res.status(401).json({ message: 'Geçersiz token' });
+
+        req.user = user;
         next();
     } catch {
         return res.status(401).json({ message: 'Bilinmeyen token' });
